@@ -30,22 +30,46 @@ app.use(flash())
 io.use(sharedsession(session, {
     autoSave: true
 }));
-// require('./routes/sudoku')[1](io);
-displayModel.find().exec(function (err, docs) {
-    if (docs) {
-        display = docs[0]
-    }
-    else {
-        displayModel.create({
+display = {
+            id: 1,
+            message: "test",
             color: [255,255,255],
             scroll: true,
-            speed: 100,
-            displayWidth: 16,
-            displayHeight: 7,
+            speed: 75,
+            displayWidth: 20,
+            displayHeight: 30,
             brightness: .25,
-        })
-    }
-})
+        }
+
+// require('./routes/sudoku')[1](io);
+// displayModel.find({id:1}).exec(function (err, doc) {
+//     if (doc) {
+//         display = {
+//             id: doc.id,
+//             message: doc.message,
+//             color: doc.color,
+//             scroll: doc.scroll,
+//             speed: doc.speed,
+//             displayWidth: 20,
+//             displayHeight: 30,
+//             brightness: doc.brightness,
+//         }
+//         console.log(display)
+//     }
+//     else {
+//         display = {
+//             id: 1,
+//             message: "test",
+//             color: [255,255,255],
+//             scroll: true,
+//             speed: 75,
+//             displayWidth: 20,
+//             displayHeight: 30,
+//             brightness: .25,
+//         }
+//         displayModel.create(display)
+//     }
+// })
 //initialize session variables
 app.use(function (req, res, next) {
     res.locals.flash = {success: req.flash("success"), info: req.flash("info"), error: req.flash("error")};
@@ -58,6 +82,10 @@ app.use("/api", apiRoutes)
 
 server.listen(4567, function () {
     console.log("Server started!")
-
 });
 
+function updateDisplay(_display) {
+    display = _display;
+}
+
+module.exports = updateDisplay

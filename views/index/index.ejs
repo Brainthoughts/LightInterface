@@ -3,6 +3,18 @@
 <br>
 <div class="text-center">
     <h1>Display Controller</h1>
-
+    <form action='/' method='POST'>
+        <label for='color'>Color: </label>
+        <input name='color' type='color' id='color' value='<%- "#"+ display.color[0].toString(16)+display.color[1].toString(16)+display.color[2].toString(16)%>'/>
+        <br>
+        <label for='scroll'>Message:</label>
+        <input name='message' type='text' id='message' value='<%- display.message %>'/>
+        <label for='scroll'>Scroll:</label> <input name='scroll' id='scroll' type='checkbox' <%- display.scroll ? "checked" : "" %>/>
+        <br>
+        <label for='brightness'>Brightness:</label>
+        <input name='brightness' type='text' id='brightness' style='width: 3em' value='<%- display.brightness %>'/>
+        <br>
+        <input name='submit' type='submit'/>
+    </form>
 </div>
 <%- include("../partials/footer") %>
