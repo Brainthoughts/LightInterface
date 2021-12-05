@@ -1,20 +1,46 @@
 <%- include("../partials/header") %>
 
 <br>
-<div class="text-center">
+<div class="text-center w-50 mx-auto">
     <h1>Display Controller</h1>
-    <form action='/' method='POST'>
-        <label for='color'>Color: </label>
-        <input name='color' type='color' id='color' value='<%- "#"+ display.color[0].toString(16)+display.color[1].toString(16)+display.color[2].toString(16)%>'/>
+    <br>
+    <form class="align-items-center" method="POST" action="/">
+        <div class="row g-3">
+            <div class="col-auto">
+                <label for="color" class="col-form-label">Color:</label>
+            </div>
+            <div class="col-auto">
+                <input type="color" id="color" name="color" class="form-control form-control-color" value="<%- display.hexColor %>">
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-auto">
+                <label for="message" class="col-form-label">Message:</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" id="message" name="message" class="form-control" value="<%- display.message %>">
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-auto">
+                <label for="brightness" class="col-form-label">Brightness:</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" id="brightness" name="brightness" class="form-control" value="<%- display.brightness %>">
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-auto">
+                <label for="speed" class="col-form-label">Speed:</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" id="speed" name="speed" class="form-control" value="<%- display.speed %>">
+            </div>
+        </div>
         <br>
-        <label for='scroll'>Message:</label>
-        <input name='message' type='text' id='message' value='<%- display.message %>'/>
-        <label for='scroll'>Scroll:</label> <input name='scroll' id='scroll' type='checkbox' <%- display.scroll ? "checked" : "" %>/>
-        <br>
-        <label for='brightness'>Brightness:</label>
-        <input name='brightness' type='text' id='brightness' style='width: 3em' value='<%- display.brightness %>'/>
-        <br>
-        <input name='submit' type='submit'/>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">Update</button>
+        </div>
     </form>
 </div>
 <%- include("../partials/footer") %>

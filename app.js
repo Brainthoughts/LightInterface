@@ -14,13 +14,13 @@ const express = require("express"),
     mongoose = require("mongoose")
 
 const indexRoutes = require("./routes/index.js"),
-    apiRoutes = require("./routes/api.js")
+    apiRoutes = require("./routes/api.js"),
+    display = require("./shared/display.js")
 
 const displayModel = require("./models/display.js")
-let display;
 
 app.set("view engine", "ejs");
-mongoose.connect('mongodb://localhost/lightInterface', {useNewUrlParser: true, useUnifiedTopology: true})
+//mongoose.connect('mongodb://localhost/lightInterface', {useNewUrlParser: true, useUnifiedTopology: true})
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(favicon(__dirname + "/public/images/favicon.ico"));
@@ -30,16 +30,7 @@ app.use(flash())
 io.use(sharedsession(session, {
     autoSave: true
 }));
-display = {
-            id: 1,
-            message: "test",
-            color: [255,255,255],
-            scroll: true,
-            speed: 75,
-            displayWidth: 20,
-            displayHeight: 30,
-            brightness: .25,
-        }
+
 
 // require('./routes/sudoku')[1](io);
 // displayModel.find({id:1}).exec(function (err, doc) {
@@ -73,7 +64,7 @@ display = {
 //initialize session variables
 app.use(function (req, res, next) {
     res.locals.flash = {success: req.flash("success"), info: req.flash("info"), error: req.flash("error")};
-    res.locals.display = display;
+    res.locals.display = display.getDisplay();
     next();
 })
 app.use("/", indexRoutes)
@@ -83,9 +74,3 @@ app.use("/api", apiRoutes)
 server.listen(4567, function () {
     console.log("Server started!")
 });
-
-function updateDisplay(_display) {
-    display = _display;
-}
-
-module.exports = updateDisplay
