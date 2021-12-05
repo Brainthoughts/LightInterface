@@ -1,9 +1,10 @@
 const express = require("express"),
     {body} = require('express-validator'),
-    router = express.Router()
+    router = express.Router(),
+    display = require("../shared/display.js")
 
 router.get("/", function (req, res) {
-    res.send(res.locals.display)
+    res.send(display.getDisplay())
 })
 
 module.exports = router;

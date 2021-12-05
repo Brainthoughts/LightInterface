@@ -14,6 +14,7 @@ const express = require("express"),
     mongoose = require("mongoose")
 
 const indexRoutes = require("./routes/index.js"),
+    inputRoutes = require("./routes/input.js"),
     apiRoutes = require("./routes/api.js"),
     display = require("./shared/display.js")
 
@@ -68,6 +69,7 @@ app.use(function (req, res, next) {
     next();
 })
 app.use("/", indexRoutes)
+app.use("/input", inputRoutes)
 app.use("/api", apiRoutes)
 
 
