@@ -6,7 +6,7 @@ let display = {
     borderColor: [255,255,255],
     borderHexColor: "#ffffff",
     scroll: true,
-    speed: 75,
+    speed: 3,
     displayWidth: 20,
     displayHeight: 30,
     brightness: 255,
