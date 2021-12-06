@@ -9,7 +9,7 @@ let display = {
     speed: 75,
     displayWidth: 20,
     displayHeight: 30,
-    brightness: .25,
+    brightness: 255,
 };
 
 function getDisplay() {

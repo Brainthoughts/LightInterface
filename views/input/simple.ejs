@@ -34,7 +34,7 @@
                 <label for="brightness" class="col-form-label">Brightness:</label>
             </div>
             <div class="col-auto">
-                <input type="text" id="brightness" name="brightness" class="form-control" value="<%- display.brightness %>">
+                <input type="number" id="brightness" name="brightness" class="form-control" min=0 max=255 value="<%- display.brightness %>">
             </div>
         </div>
         <div class="row g-3">
