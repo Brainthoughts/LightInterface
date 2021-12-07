@@ -25,7 +25,7 @@
                 <label for="topSpeed" class="col-form-label">Speed:</label>
             </div>
             <div class="col-auto">
-                <input type="text" id="topSpeed" name="topSpeed" class="form-control" value="<%- display.topSpeed %>">
+                <input type="text" id="topSpeed" name="topSpeed" class="form-control" min=1 value="<%- display.topSpeed %>">
             </div>
         </div>
         <br>
@@ -50,7 +50,7 @@
                 <label for="bottomSpeed" class="col-form-label">Speed:</label>
             </div>
             <div class="col-auto">
-                <input type="text" id="bottomSpeed" name="bottomSpeed" class="form-control" value="<%- display.bottomSpeed %>">
+                <input type="number" id="bottomSpeed" name="bottomSpeed" class="form-control" min=1 value="<%- display.bottomSpeed %>">
             </div>
         </div>
         <br>
@@ -67,7 +67,7 @@
                 <label for="brightness" class="col-form-label">Brightness:</label>
             </div>
             <div class="col-auto">
-                <input type="text" id="brightness" name="brightness" class="form-control" value="<%- display.brightness %>">
+                <input type="number" id="brightness" name="brightness" class="form-control" min=0 max=255 value="<%- display.brightness %>">
             </div>
         </div>
         <br>
