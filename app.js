@@ -1,6 +1,5 @@
 const express = require("express"),
     app = express(),
-    bodyParser = require("body-parser"),
     favicon = require("serve-favicon"),
     session = require("express-session")({secret: "averygoodsecret", resave: false, saveUninitialized: false}),
     crypto = require("crypto"),
@@ -23,7 +22,7 @@ const displayModel = require("./models/display.js")
 app.set("view engine", "ejs");
 //mongoose.connect('mongodb://localhost/lightInterface', {useNewUrlParser: true, useUnifiedTopology: true})
 app.use(express.static(__dirname + "/public"));
-app.use(bodyParser.urlencoded({extended: true}));
+// app.use(bodyParser.urlencoded({extended: true}));
 app.use(favicon(__dirname + "/public/images/favicon.ico"));
 app.use(session)
 app.use(logger("common"));

@@ -1,0 +1,31 @@
+<%- include("../partials/header") %>
+
+<br>
+<div class="text-center w-50 mx-auto">
+    <h1>Display Controller</h1>
+    <br>
+    <form class="align-items-center" enctype="multipart/form-data" method="POST">
+        <div class="row g-3">
+            <div class="col-auto">
+                <label for="image" class="col-form-label">Image upload:</label>
+            </div>
+            <div class="col-auto">
+                <input class="form-control" type="file" name="image" id="image">
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-auto">
+                <label for="brightness" class="col-form-label">Brightness:</label>
+            </div>
+            <div class="col-auto">
+                <input type="number" id="brightness" name="brightness" class="form-control" min=0 max=255
+                       value="<%- display.brightness %>">
+            </div>
+        </div>
+        <br>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">Update</button>
+        </div>
+    </form>
+</div>
+<%- include("../partials/footer") %>

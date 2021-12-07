@@ -1,7 +1,7 @@
 let display = {
     inputType: "simple",
-    displayWidth: 20,
-    displayHeight: 30,
+    displayWidth: 30,
+    displayHeight: 20,
     simple: {
         message: "Hello World!",
         textColor: [255, 255, 255],
@@ -29,6 +29,9 @@ let display = {
         borderHexColor: "#ffffff",
         brightness: 255,
     },
+    image: {
+        brightness: 255,
+    }
 };
 
 function getDisplay() {
@@ -37,34 +40,30 @@ function getDisplay() {
 
 function updateDisplay(_display, inputType) {
     if (inputType === "simple") {
-        // _display.textHexColor = "#" + toBufferedHex(_display.textColor)
         _display.textColor = hexToRGB(_display.textHexColor)
+        _display.borderColor = "#" + hexToRGB(_display.borderHexColor)
+    } else if (inputType === "twoline") {
+        _display.topTextColor = "#" + hexToRGB(_display.topTextHexColor)
+        _display.bottomTextColor = "#" + hexToRGB(_display.bottomTextHexColor)
+        _display.borderColor = "#" + hexToRGB(_display.borderHexColor)
+    } else if (inputType === "image") {
+        for (let col = 0; col < getDisplay().displayWidth; col++) {
+            for (let row = 0; row < getDisplay().displayHeight; row++) {
+                _display.image[col][row] = hexToRGB(_display.image[col][row].toString().substring(0, 6))
+            }
+        }
     }
-    else if (inputType === "twoline") {
-        // _display.topTextHexColor = "#" + toBufferedHex(_display.topTextColor)
-        // _display.bottomTextHexColor = "#" + toBufferedHex(_display.bottomTextColor)
-        _display.topTextColor = "#" + hexToRGB( _display.topTextHexColor)
-        _display.bottomTextColor = "#" + hexToRGB( _display.bottomTextHexColor)
-    }
-    _display.borderColor = "#" + hexToRGB(_display.borderHexColor)
 
     display.inputType = inputType;
     display[inputType] = _display;
 }
 
-function toBufferedHex(rgb) {
-    let hexOut = "";
-    for (const color of rgb) {
-        hexOut += color.toString(16).length === 1 ? "0" + color.toString(16) : color.toString(16);
-    }
-    return hexOut
-}
-
 function hexToRGB(hex) {
+    hex = hex.replace("#", "")
     return [
-        parseInt(hex.substring(1,3),16),
-        parseInt(hex.substring(3,5),16),
-        parseInt(hex.substring(5),16)
+        parseInt(hex.substring(0, 2), 16),
+        parseInt(hex.substring(2, 4), 16),
+        parseInt(hex.substring(4, 6), 16)
     ]
 }
 
