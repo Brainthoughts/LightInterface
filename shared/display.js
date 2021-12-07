@@ -37,13 +37,16 @@ function getDisplay() {
 
 function updateDisplay(_display, inputType) {
     if (inputType === "simple") {
-        _display.textHexColor = "#" + toBufferedHex(_display.textColor)
+        // _display.textHexColor = "#" + toBufferedHex(_display.textColor)
+        _display.textColor = hexToRGB(_display.textHexColor)
     }
     else if (inputType === "twoline") {
-        _display.topTextHexColor = "#" + toBufferedHex(_display.topTextColor)
-        _display.bottomTextHexColor = "#" + toBufferedHex(_display.bottomTextColor)
+        // _display.topTextHexColor = "#" + toBufferedHex(_display.topTextColor)
+        // _display.bottomTextHexColor = "#" + toBufferedHex(_display.bottomTextColor)
+        _display.topTextColor = "#" + hexToRGB( _display.topTextHexColor)
+        _display.bottomTextColor = "#" + hexToRGB( _display.bottomTextHexColor)
     }
-    _display.borderHexColor = "#" + toBufferedHex(_display.borderColor)
+    _display.borderColor = "#" + hexToRGB(_display.borderHexColor)
 
     display.inputType = inputType;
     display[inputType] = _display;
@@ -58,7 +61,11 @@ function toBufferedHex(rgb) {
 }
 
 function hexToRGB(hex) {
-
+    return [
+        parseInt(hex.substring(1,3),16),
+        parseInt(hex.substring(3,5),16),
+        parseInt(hex.substring(5),16)
+    ]
 }
 
 module.exports.getDisplay = getDisplay;
