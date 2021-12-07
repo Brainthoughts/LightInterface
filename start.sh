@@ -1,4 +1,5 @@
 #! /bin/bash
 
 git pull;
-nohup node app.js;
+npm i;
+node app.js;
