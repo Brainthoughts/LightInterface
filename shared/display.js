@@ -1,33 +1,70 @@
 let display = {
-    id: 1,
-    message: "test",
-    textColor: [255,255,255],
-    textHexColor: "#ffffff",
-    borderColor: [255,255,255],
-    borderHexColor: "#ffffff",
-    scroll: true,
-    speed: 3,
-    displayWidth: 20,
-    displayHeight: 30,
-    brightness: 255,
+    inputType: "simple",
+    displayWidth: 30,
+    displayHeight: 20,
+    simple: {
+        message: "Hello World!",
+        textColor: [255, 255, 255],
+        textHexColor: "#ffffff",
+        borderColor: [255, 255, 255],
+        borderHexColor: "#ffffff",
+        scroll: true,
+        speed: 3,
+        brightness: 255,
+    },
+    twoline: {
+        topMessage: "Hello World!",
+        topTextColor: [255, 255, 255],
+        topTextHexColor: "#ffffff",
+        topScroll: true,
+        topSpeed: 3,
+
+        bottomMessage: "Hello World!",
+        bottomTextColor: [255, 255, 255],
+        bottomTextHexColor: "#ffffff",
+        bottomScroll: true,
+        bottomSpeed: 3,
+
+        borderColor: [255, 255, 255],
+        borderHexColor: "#ffffff",
+        brightness: 255,
+    },
+    image: {
+        brightness: 255,
+    }
 };
 
 function getDisplay() {
     return display;
 }
 
-function updateDisplay(_display) {
-    display = _display;
+function updateDisplay(_display, inputType) {
+    if (inputType === "simple") {
+        _display.textColor = hexToRGB(_display.textHexColor)
+        _display.borderColor = hexToRGB(_display.borderHexColor)
+    } else if (inputType === "twoline") {
+        _display.topTextColor = hexToRGB(_display.topTextHexColor)
+        _display.bottomTextColor = hexToRGB(_display.bottomTextHexColor)
+        _display.borderColor = hexToRGB(_display.borderHexColor)
+    } else if (inputType === "image") {
+        for (let col = 0; col < getDisplay().displayWidth; col++) {
+            for (let row = 0; row < getDisplay().displayHeight; row++) {
+                _display.image[col][row] = hexToRGB(_display.image[col][row].toString().substring(0, 6))
+            }
+        }
+    }
 
-    let r = display.textColor[0].toString(16).length === 1 ? "0" + display.textColor[0].toString(16) : display.textColor[0].toString(16);
-    let g = display.textColor[1].toString(16).length === 1 ? "0" + display.textColor[1].toString(16) : display.textColor[1].toString(16);
-    let b = display.textColor[2].toString(16).length === 1 ? "0" + display.textColor[2].toString(16) : display.textColor[2].toString(16);
-    display.textHexColor = "#"+r+g+b
+    display.inputType = inputType;
+    display[inputType] = _display;
+}
 
-    r = display.borderColor[0].toString(16).length === 1 ? "0" + display.borderColor[0].toString(16) : display.borderColor[0].toString(16);
-    g = display.borderColor[1].toString(16).length === 1 ? "0" + display.borderColor[1].toString(16) : display.borderColor[1].toString(16);
-    b = display.borderColor[2].toString(16).length === 1 ? "0" + display.borderColor[2].toString(16) : display.borderColor[2].toString(16);
-    display.borderHexColor = "#"+r+g+b
+function hexToRGB(hex) {
+    hex = hex.replace("#", "")
+    return [
+        parseInt(hex.substring(0, 2), 16),
+        parseInt(hex.substring(2, 4), 16),
+        parseInt(hex.substring(4, 6), 16)
+    ]
 }
 
 module.exports.getDisplay = getDisplay;
