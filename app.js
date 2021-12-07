@@ -65,7 +65,8 @@ io.use(sharedsession(session, {
 //initialize session variables
 app.use(function (req, res, next) {
     res.locals.flash = {success: req.flash("success"), info: req.flash("info"), error: req.flash("error")};
-    res.locals.display = display.getDisplay();
+    res.locals.display = display.getDisplay()[req.url.split("/")[req.url.split("/").length -1]];
+    res.locals.inputType = req.url.split("/")[req.url.split("/").length -1];
     next();
 })
 app.use("/", indexRoutes)

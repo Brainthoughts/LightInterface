@@ -1,0 +1,79 @@
+<%- include("../partials/header") %>
+
+<div class="text-center w-50 mx-auto">
+    <h1>Display Controller</h1>
+    <br>
+    <form class="align-items-center" method="POST">
+        <div class="row g-3">
+            <div class="col-auto">
+                <label for="topTextColor" class="col-form-label">Top Text Color:</label>
+            </div>
+            <div class="col-auto">
+                <input type="color" id="topTextColor" name="topTextColor" class="form-control form-control-color" value="<%- display.topTextHexColor %>">
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-auto">
+                <label for="topMessage" class="col-form-label">Top Message:</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" id="topMessage" name="topMessage" class="form-control" value="<%- display.topMessage %>">
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-auto">
+                <label for="topSpeed" class="col-form-label">Speed:</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" id="topSpeed" name="topSpeed" class="form-control" value="<%- display.topSpeed %>">
+            </div>
+        </div>
+        <br>
+        <div class="row g-3">
+            <div class="col-auto">
+                <label for="bottomTextColor" class="col-form-label">Bottom Text Color:</label>
+            </div>
+            <div class="col-auto">
+                <input type="color" id="bottomTextColor" name="bottomTextColor" class="form-control form-control-color" value="<%- display.bottomTextHexColor %>">
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-auto">
+                <label for="bottomMessage" class="col-form-label">Bottom Message:</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" id="bottomMessage" name="bottomMessage" class="form-control" value="<%- display.bottomMessage %>">
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-auto">
+                <label for="bottomSpeed" class="col-form-label">Speed:</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" id="bottomSpeed" name="bottomSpeed" class="form-control" value="<%- display.bottomSpeed %>">
+            </div>
+        </div>
+        <br>
+        <div class="row g-3">
+            <div class="col-auto">
+                <label for="borderColor" class="col-form-label">Border Color:</label>
+            </div>
+            <div class="col-auto">
+                <input type="color" id="borderColor" name="borderColor" class="form-control form-control-color" value="<%- display.borderHexColor %>">
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-auto">
+                <label for="brightness" class="col-form-label">Brightness:</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" id="brightness" name="brightness" class="form-control" value="<%- display.brightness %>">
+            </div>
+        </div>
+        <br>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-3">Update</button>
+        </div>
+    </form>
+</div>
+<%- include("../partials/footer") %>

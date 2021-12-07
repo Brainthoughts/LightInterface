@@ -4,7 +4,7 @@ const express = require("express"),
     display = require("../shared/display.js")
 
 router.get("/", function (req, res) {
-    res.send(display.getDisplay())
+    res.send(display.getDisplay()[display.getDisplay().inputType])
 })
 
 module.exports = router;

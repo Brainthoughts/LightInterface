@@ -1,33 +1,64 @@
 let display = {
-    id: 1,
-    message: "test",
-    textColor: [255,255,255],
-    textHexColor: "#ffffff",
-    borderColor: [255,255,255],
-    borderHexColor: "#ffffff",
-    scroll: true,
-    speed: 3,
+    inputType: "simple",
     displayWidth: 20,
     displayHeight: 30,
-    brightness: 255,
+    simple: {
+        message: "Hello World!",
+        textColor: [255, 255, 255],
+        textHexColor: "#ffffff",
+        borderColor: [255, 255, 255],
+        borderHexColor: "#ffffff",
+        scroll: true,
+        speed: 3,
+        brightness: 255,
+    },
+    twoline: {
+        topMessage: "Hello World!",
+        topTextColor: [255, 255, 255],
+        topTextHexColor: "#ffffff",
+        topScroll: true,
+        topSpeed: 3,
+
+        bottomMessage: "Hello World!",
+        bottomTextColor: [255, 255, 255],
+        bottomTextHexColor: "#ffffff",
+        bottomScroll: true,
+        bottomSpeed: 3,
+
+        borderColor: [255, 255, 255],
+        borderHexColor: "#ffffff",
+        brightness: 255,
+    },
 };
 
 function getDisplay() {
     return display;
 }
 
-function updateDisplay(_display) {
-    display = _display;
+function updateDisplay(_display, inputType) {
+    if (inputType === "simple") {
+        _display.textHexColor = "#" + toBufferedHex(_display.textColor)
+    }
+    else if (inputType === "twoline") {
+        _display.topTextHexColor = "#" + toBufferedHex(_display.topTextColor)
+        _display.bottomTextHexColor = "#" + toBufferedHex(_display.bottomTextColor)
+    }
+    _display.borderHexColor = "#" + toBufferedHex(_display.borderColor)
 
-    let r = display.textColor[0].toString(16).length === 1 ? "0" + display.textColor[0].toString(16) : display.textColor[0].toString(16);
-    let g = display.textColor[1].toString(16).length === 1 ? "0" + display.textColor[1].toString(16) : display.textColor[1].toString(16);
-    let b = display.textColor[2].toString(16).length === 1 ? "0" + display.textColor[2].toString(16) : display.textColor[2].toString(16);
-    display.textHexColor = "#"+r+g+b
+    display.inputType = inputType;
+    display[inputType] = _display;
+}
 
-    r = display.borderColor[0].toString(16).length === 1 ? "0" + display.borderColor[0].toString(16) : display.borderColor[0].toString(16);
-    g = display.borderColor[1].toString(16).length === 1 ? "0" + display.borderColor[1].toString(16) : display.borderColor[1].toString(16);
-    b = display.borderColor[2].toString(16).length === 1 ? "0" + display.borderColor[2].toString(16) : display.borderColor[2].toString(16);
-    display.borderHexColor = "#"+r+g+b
+function toBufferedHex(rgb) {
+    let hexOut = "";
+    for (const color of rgb) {
+        hexOut += color.toString(16).length === 1 ? "0" + color.toString(16) : color.toString(16);
+    }
+    return hexOut
+}
+
+function hexToRGB(hex) {
+
 }
 
 module.exports.getDisplay = getDisplay;
