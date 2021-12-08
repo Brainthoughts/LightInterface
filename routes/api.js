@@ -2,7 +2,7 @@ const express = require("express"),
 	router = express.Router(),
 	display = require("../shared/display.js")
 
-let currentConnection;
+let currentConnections = [];
 
 router.get("/", function (req, res) {
 	res.send({
@@ -15,21 +15,31 @@ router.ws('/', function (ws, req) {
 	ws.on('message', function (msg) {
 		if (msg === "init") {
 			console.log("connect/message")
-			currentConnection = ws;
+			currentConnections.push(ws);
 			pushUpdate()
 		}
 	});
+	ws.on('close', function (code, reason) {
+		let index = currentConnections.indexOf(ws)
+		if (index > -1){
+			currentConnections.splice(index, 1)
+		}	
+	})
 });
 
 function pushUpdate() {
-	try {
-		currentConnection.send(JSON.stringify({
-			type: display.getDisplay().inputType,
-			data: display.getDisplay()[display.getDisplay().inputType]
-		}))
-	} catch (e) {
-		console.log(e)
-	}
+	currentConnections.forEach(ws => {
+		try {
+			ws.send(JSON.stringify({
+				type: display.getDisplay().inputType,
+				data: display.getDisplay()[display.getDisplay().inputType]
+			}))
+		}
+		catch (e) {
+			console.log(e)
+		}
+
+	})
 }
 
 module.exports.router = router;
