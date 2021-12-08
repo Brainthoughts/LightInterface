@@ -8,7 +8,7 @@
 
 <script>
     console.log("Connecting")
-    const socket = new WebSocket('ws://localhost:4567/api/');
+    const socket = new WebSocket('ws://' + window.location.host + '/api/');
     socket.addEventListener('open', function (event) {
         socket.send('init');
     });
