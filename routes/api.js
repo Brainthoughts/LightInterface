@@ -23,6 +23,7 @@ router.ws('/', function (ws, req) {
 		}
 	});
 	ws.on('close', function (code, reason) {
+		console.log("connect/close");
 		let index = currentConnections.indexOf(ws)
 		if (index > -1){
 			currentConnections.splice(index, 1)
