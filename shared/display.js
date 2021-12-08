@@ -1,3 +1,4 @@
+const pushUpdate = require("../routes/api.js").pushUpdate
 let display = {
     inputType: "simple",
     displayWidth: 30,
@@ -56,6 +57,7 @@ function updateDisplay(_display, inputType) {
 
     display.inputType = inputType;
     display[inputType] = _display;
+    pushUpdate()
 }
 
 function hexToRGB(hex) {
