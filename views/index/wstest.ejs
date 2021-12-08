@@ -1,0 +1,19 @@
+<%- include("../partials/header") %>
+
+<br>
+<div class="text-center w-50 mx-auto">
+    <h1>Display Controller</h1>
+    <br>
+</div>
+
+<script>
+    console.log("Connecting")
+    const socket = new WebSocket('ws://localhost:4567/api/');
+    socket.addEventListener('open', function (event) {
+        socket.send('init');
+    });
+    socket.addEventListener('message', function (event) {
+        console.log(event.data.toString());
+    });
+</script>
+<%- include("../partials/footer") %>
