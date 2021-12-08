@@ -16,7 +16,10 @@ router.ws('/', function (ws, req) {
 		if (msg === "init") {
 			console.log("connect/message")
 			currentConnections.push(ws);
-			pushUpdate()
+			ws.send(JSON.stringify({
+				type: display.getDisplay().inputType,
+				data: display.getDisplay()[display.getDisplay().inputType]
+			}))
 		}
 	});
 	ws.on('close', function (code, reason) {
