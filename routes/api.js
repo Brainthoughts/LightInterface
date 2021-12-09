@@ -16,10 +16,23 @@ router.ws('/', function (ws, req) {
 		if (msg === "init") {
 			console.log("connect/message")
 			currentConnections.push(ws);
-			ws.send(JSON.stringify({
-				type: display.getDisplay().inputType,
-				data: display.getDisplay()[display.getDisplay().inputType]
-			}))
+			if (display.getDisplay().inputType == "image"){
+				ws.send(JSON.stringify({type: display.getDisplay().inputType}))
+				for (let col = 0; col < display.getDisplay().displayWidth; col++) {
+					ws.send(JSON.stringify({
+						col: col,
+						data: display.getDisplay()[display.getDisplay().inputType].image[col]
+					}))
+				}
+			}
+			
+			else {
+				ws.send(JSON.stringify({
+					type: display.getDisplay().inputType,
+					data: display.getDisplay()[display.getDisplay().inputType]
+				}))
+			}
+			
 		}
 	});
 	ws.on('close', function (code, reason) {
@@ -34,10 +47,22 @@ router.ws('/', function (ws, req) {
 function pushUpdate() {
 	currentConnections.forEach(ws => {
 		try {
-			ws.send(JSON.stringify({
-				type: display.getDisplay().inputType,
-				data: display.getDisplay()[display.getDisplay().inputType]
-			}))
+			if (display.getDisplay().inputType == "image"){
+				ws.send(JSON.stringify({type: display.getDisplay().inputType}))
+				for (let col = 0; col < display.getDisplay().displayWidth; col++) {
+					ws.send(JSON.stringify({
+						col: col,
+						data: display.getDisplay()[display.getDisplay().inputType].image[col]
+					}))
+				}
+			}
+			
+			else {
+				ws.send(JSON.stringify({
+					type: display.getDisplay().inputType,
+					data: display.getDisplay()[display.getDisplay().inputType]
+				}))
+			}
 		}
 		catch (e) {
 			console.log(e)

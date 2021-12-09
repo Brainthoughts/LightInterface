@@ -48,15 +48,11 @@ function updateDisplay(_display, inputType) {
         _display.bottomTextColor = hexToRGB(_display.bottomTextHexColor)
         _display.borderColor = hexToRGB(_display.borderHexColor)
     } else if (inputType === "image") {
-        let image = [];
         for (let col = 0; col < getDisplay().displayWidth; col++) {
             for (let row = 0; row < getDisplay().displayHeight; row++) {
-                for (let i = 0; i < 3; i++){
-                    image.push(hexToRGB(_display.image[col][row].toString().substring(0, 6))[i])
-                }
+                _display.image[col][row] = hexToRGB(_display.image[col][row].toString().substring(0, 6))
             }
         }
-        _display.image = image;
     }
 
     display.inputType = inputType;
