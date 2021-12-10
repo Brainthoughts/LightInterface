@@ -64,6 +64,7 @@ router.get("/image", function (req, res) {
 router.post("/image", function (req, res) {
     let form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
+        console.log(files);
         if (files.image.size > 0) {
             let oldpath = files.image.filepath;
             Jimp.read(oldpath, function (err, img) {
