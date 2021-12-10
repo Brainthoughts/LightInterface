@@ -2,6 +2,7 @@ const express = require("express"),
     // {body} = require('express-validator'),
     router = express.Router(),
     formidable = require('formidable'),
+    fs = require("fs")
     Jimp = require('jimp');
 const {getDisplay} = require("../shared/display");
 
@@ -85,6 +86,7 @@ router.post("/image", function (req, res) {
         } else {
             updateImage(req, res, fields)
         }
+        fs.unlinkSync(files.image.filepath)
     });
 
 })
