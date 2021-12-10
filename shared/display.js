@@ -5,9 +5,9 @@ let display = {
     displayHeight: 20,
     simple: {
         message: "Hello World!",
-        textColor: [255, 255, 255],
+        textColor: 16777215,
         textHexColor: "#ffffff",
-        borderColor: [255, 255, 255],
+        borderColor: 16777215,
         borderHexColor: "#ffffff",
         scroll: true,
         speed: 3,
@@ -15,18 +15,18 @@ let display = {
     },
     twoline: {
         topMessage: "Hello World!",
-        topTextColor: [255, 255, 255],
+        topTextColor: 16777215,
         topTextHexColor: "#ffffff",
         topScroll: true,
         topSpeed: 3,
 
         bottomMessage: "Hello World!",
-        bottomTextColor: [255, 255, 255],
+        bottomTextColor: 16777215,
         bottomTextHexColor: "#ffffff",
         bottomScroll: true,
         bottomSpeed: 3,
 
-        borderColor: [255, 255, 255],
+        borderColor: 16777215,
         borderHexColor: "#ffffff",
         brightness: 255,
     },
@@ -62,12 +62,16 @@ function updateDisplay(_display, inputType) {
 
 function hexToRGB(hex) {
     hex = hex.replace("#", "")
-    return [
-        parseInt(hex.substring(0, 2), 16),
-        parseInt(hex.substring(2, 4), 16),
-        parseInt(hex.substring(4, 6), 16)
-    ]
+
+    let rgb = parseInt(hex.substring(0, 2), 16)
+    rgb = (rgb << 8) + parseInt(hex.substring(2, 4), 16)
+    rgb = (rgb << 8) + parseInt(hex.substring(4, 6), 16)
+
+    return rgb
 }
 
 module.exports.getDisplay = getDisplay;
 module.exports.updateDisplay = updateDisplay;
+
+module.exports.getType = () => display.inputType;
+module.exports.getData = () => display[display.inputType];
