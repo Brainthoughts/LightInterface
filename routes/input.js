@@ -64,6 +64,11 @@ router.get("/image", function (req, res) {
 router.post("/image", function (req, res) {
     let form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
+        if (err) {
+            console.log(err)
+            res.send("There was an error processing your file, try again later.")
+            return
+        }
         console.log(files);
         if (files.image.size > 0) {
             let oldpath = files.image.filepath;
