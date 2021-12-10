@@ -70,7 +70,10 @@ router.ws('/', function (ws, req) {
 });
 
 function pushUpdate() {
-	currentConnections.forEach(ws => ws.send(display.getType()))
+	currentConnections.forEach(ws => ws.send(JSON.stringify({
+		type: display.getType(),
+		data: display.getData()
+	})))
 }
 
 module.exports.router = router;
