@@ -2,3 +2,6 @@ node_modules/
 package-lock.json
 public/images/currentImage.jpg
 ./idea
+/nohup.out
+/.idea/
+/LightInterface.iml
