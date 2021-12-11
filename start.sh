@@ -3,4 +3,4 @@
 kill $(pgrep -u $(whoami) node);
 git pull;
 npm i;
-node app.js;
+nohup node app.js &
