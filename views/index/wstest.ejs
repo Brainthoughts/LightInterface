@@ -8,11 +8,11 @@
 
 <script>
     console.log("Connecting")
-    const socket = new WebSocket('ws://' + window.location.host + '/api/');
-    socket.addEventListener('open', function (event) {
+    const socket = new WebSocket('ws://' + window.location.host + '/api/'); //connect to the ws server
+    socket.addEventListener('open', function (event) { //when connection opens
         socket.send('init');
     });
-    socket.addEventListener('message', function (event) {
+    socket.addEventListener('message', function (event) { //when client receives a message
         console.log(event.data.toString());
     });
 </script>

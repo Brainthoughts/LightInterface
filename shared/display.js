@@ -1,5 +1,5 @@
 const pushUpdate = require("../routes/api.js").pushUpdate
-let display = {
+let display = {  //display defaults
     inputType: "simple",
     displayWidth: 30,
     displayHeight: 20,
@@ -11,7 +11,7 @@ let display = {
         borderHexColor: "#ffffff",
         scroll: true,
         speed: 3,
-        brightness: 255,
+        brightness: 100,
     },
     twoline: {
         topMessage: "Hello World!",
@@ -28,10 +28,10 @@ let display = {
 
         borderColor: 16777215,
         borderHexColor: "#ffffff",
-        brightness: 255,
+        brightness: 100,
     },
     image: {
-        brightness: 255,
+        brightness: 100,
     }
 };
 
@@ -48,21 +48,25 @@ function updateDisplay(_display, inputType) {
         _display.bottomTextColor = hexToRGB(_display.bottomTextHexColor)
         _display.borderColor = hexToRGB(_display.borderHexColor)
     } else if (inputType === "image") {
-        let image = [];
-        for (let col = 0; col < getDisplay().displayWidth; col++) {
-            for (let row = 0; row < getDisplay().displayHeight; row++) {
-                image.push(hexToRGB(_display.image[col][row].toString().substring(0, 6)))
-            }
-        }
-        _display.image = image;
+        _display.image = parseImage(_display.image);
     }
 
     display.inputType = inputType;
-    display[inputType] = _display;
-    pushUpdate()
+    display[inputType] = _display; //update the actual display object
+    pushUpdate() //send new data to all connected ws
 }
 
-function hexToRGB(hex) {
+function parseImage(img) {
+    let image = [];
+    for (let col = 0; col < getDisplay().displayWidth; col++) { //for each column
+        for (let row = 0; row < getDisplay().displayHeight; row++) { //for each row
+            image.push(hexToRGB(img.getPixelColor(col, row).toString(16).substring(0, 6))) //add pixel rgb int to the image array
+        }
+    }
+    return image;
+}
+
+function hexToRGB(hex) { //converts a hex rgb string to rgb int
     hex = hex.replace("#", "")
 
     let rgb = parseInt(hex.substring(0, 2), 16)
@@ -72,8 +76,10 @@ function hexToRGB(hex) {
     return rgb
 }
 
+//exports
 module.exports.getDisplay = getDisplay;
 module.exports.updateDisplay = updateDisplay;
+module.exports.hexToRGB = hexToRGB;
 
 module.exports.getType = () => display.inputType;
 module.exports.getData = () => display[display.inputType];

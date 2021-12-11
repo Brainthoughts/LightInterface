@@ -3,7 +3,7 @@ const express = require("express"),
     router = express.Router(),
     formidable = require('formidable'),
     fs = require("fs")
-    Jimp = require('jimp');
+Jimp = require('jimp');
 const {getDisplay} = require("../shared/display");
 
 display = require("../shared/display.js")
@@ -18,14 +18,14 @@ router.post("/simple", function (req, res) {
     form.parse(req, function (err, fields) {
         if (err)
             console.log(err)
-        display.updateDisplay({
+        display.updateDisplay({ //update the display object
             message: fields.message,
             textHexColor: fields.textColor,
             borderHexColor: fields.borderColor,
             scroll: (fields.scroll === "true"),
             speed: parseInt(fields.speed),
             brightness: parseFloat(fields.brightness),
-        }, req.url.split("/")[req.url.split("/").length - 1])
+        }, res.locals.inputType)
         res.redirect(req.originalUrl)
     })
 })
@@ -53,7 +53,7 @@ router.post("/twoline", function (req, res) {
 
             borderHexColor: fields.borderColor,
             brightness: parseFloat(fields.brightness),
-        }, req.url.split("/")[req.url.split("/").length - 1])
+        }, res.locals.inputType)
         res.redirect(req.originalUrl)
     })
 })
@@ -70,46 +70,39 @@ router.post("/image", function (req, res) {
             res.send("There was an error processing your file, try again later.")
             return
         }
-        console.log(files);
-        if (files.image.size > 0) {
-            let oldpath = files.image.filepath;
-            Jimp.read(oldpath, function (err, img) {
+        if (files.image.size > 0) { //if an image was actually uploaded
+            Jimp.read(files.image.filepath, function (err, img) { //load image into jimp
                 if (err) {
                     console.log(err)
                     res.send("There was an error processing your file, try again later.")
                     return
                 }
-                img.resize(getDisplay().displayWidth, getDisplay().displayHeight).writeAsync(process.cwd() + '/public/images/currentImage.jpg').then(function () {
-                    updateImage(req, res, fields)
-                })
+                img.resize(getDisplay().displayWidth, getDisplay().displayHeight) //resize image to 30x20 px
+                    .writeAsync(process.cwd() + '/public/images/currentImage.jpg') //save new image
+                    .then(function () {
+                        updateImage(req, res, fields, files.image.filepath)
+                    })
             })
         } else {
-            updateImage(req, res, fields)
+            updateImage(req, res, fields, files.image.filepath)
         }
-        fs.unlinkSync(files.image.filepath)
     });
 
 })
 
-function updateImage(req, res, fields) {
-    let image = Array();
-    Jimp.read(process.cwd() + '/public/images/currentImage.jpg', function (err, img) {
+
+function updateImage(req, res, fields, oldImagePath) { //converts jimp image to array
+    fs.unlinkSync(oldImagePath) //VERY IMPORTANT: don't forget to delete uploaded images from /tmp
+    Jimp.read(process.cwd() + '/public/images/currentImage.jpg', function (err, img) { //read new image
         if (err) {
             console.log(err)
             res.send("There was an error processing your file, try again later.")
             return
         }
-        for (let x = 0; x < getDisplay().displayWidth; x++) {
-            image.push([])
-            for (let y = 0; y < getDisplay().displayHeight; y++) {
-                image[x].push([img.getPixelColor(x, y).toString(16)])
-            }
-        }
-        // console.log(image)
         display.updateDisplay({
-            image: image,
-            brightness: parseFloat(fields.brightness),
-        }, req.url.split("/")[req.url.split("/").length - 1])
+            image: img,
+            brightness: parseInt(fields.brightness),
+        }, res.locals.inputType)
         res.redirect(req.originalUrl)
     })
 }

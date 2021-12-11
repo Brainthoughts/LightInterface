@@ -6,7 +6,7 @@ router.get("/", function (req, res) {
 })
 
 router.get("/wstest", function (req, res) {
-    res.render("index/wstest")
+    res.render("index/wstest") //for testing websockets, unlisted
 })
 
 
