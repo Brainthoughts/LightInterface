@@ -14,7 +14,7 @@ router.get("/simple", function (req, res) {
 })
 
 router.post("/simple", function (req, res) {
-    let form = new formidable.IncomingForm();
+    let form = new formidable.IncomingForm({uploadDir: process.cwd() + '/tmp'});
     form.parse(req, function (err, fields) {
         if (err)
             console.log(err)
@@ -35,7 +35,7 @@ router.get("/twoline", function (req, res) {
 })
 
 router.post("/twoline", function (req, res) {
-    let form = new formidable.IncomingForm();
+    let form = new formidable.IncomingForm({uploadDir: process.cwd() + '/tmp'});
     form.parse(req, function (err, fields) {
         if (err)
             console.log(err)
@@ -63,7 +63,7 @@ router.get("/image", function (req, res) {
 })
 
 router.post("/image", function (req, res) {
-    let form = new formidable.IncomingForm();
+    let form = new formidable.IncomingForm({uploadDir: process.cwd() + '/tmp'});
     form.parse(req, function (err, fields, files) {
         if (err) {
             console.log(err)
