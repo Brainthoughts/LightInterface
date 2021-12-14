@@ -2,16 +2,20 @@ const keys = require("./config/keys.js"),
     express = require("express"),
     app = express(),
     favicon = require("serve-favicon"),
-    session = require("express-session")({secret: "averygoodsecret", resave: false, saveUninitialized: false}),
+    session = require("express-session")({secret: keys.session.secret, resave: false, saveUninitialized: false}),
     logger = require("morgan"),
     flash = require("connect-flash"),
-    twilio = require('twilio')(keys.twilio.accountSid, keys.twilio.authToken)
+    twilio = require('twilio')(keys.twilio.accountSid, keys.twilio.authToken),
+    passport = require("passport"),
+    expressWs = require('express-ws')(app); //sets up ws in the router
 
 const indexRoutes = require("./routes/index.js"),
     inputRoutes = require("./routes/input.js"),
     apiRoutes = require("./routes/api.js"),
-    debugRoutes = require("./routes/debug.js")
-display = require("./shared/display.js")
+    authRoutes = require("./routes/auth.js"),
+    debugRoutes = require("./routes/debug.js"),
+    display = require("./shared/display.js"),
+    auth = require("./shared/auth")
 
 
 require('express-ws')(app); //sets up ws in the router
@@ -19,6 +23,9 @@ app.set("view engine", "ejs"); //for rendering html
 app.use(express.static(__dirname + "/public"));
 app.use(favicon(__dirname + "/public/images/favicon.ico"));
 app.use(session)
+require("./config/passport")
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(logger("common"));
 app.use(flash())
 
@@ -28,11 +35,14 @@ app.use(function (req, res, next) {
     res.locals.flash = {success: req.flash("success"), info: req.flash("info"), error: req.flash("error")};
     res.locals.inputType = req.url.split("/")[req.url.split("/").length - 1];
     res.locals.display = display.getDisplay()[res.locals.inputType]; //display of proper input type
+    res.locals.user = req.user;
     next();
 })
 app.use("/", indexRoutes)
-app.use("/input", inputRoutes)
+app.use("/auth", authRoutes)
+app.use("/input", auth.hasAccessLevel(1), inputRoutes)
 app.use("/api", apiRoutes.router) //.router needed because my code is bad and apiRoutes exports more than 1 thing
+app.use("/debug", debugRoutes)
 
 if (process.env.debug) {
     console.log("DEBUG")
