@@ -41,12 +41,12 @@ function getDisplay() {
 
 function updateDisplay(_display, inputType) {
     if (inputType === "simple") {
-        _display.textColor = hexToRGB(_display.textHexColor)
-        _display.borderColor = hexToRGB(_display.borderHexColor)
+        _display.textColor = hexToRGBInt(_display.textHexColor)
+        _display.borderColor = hexToRGBInt(_display.borderHexColor)
     } else if (inputType === "twoline") {
-        _display.topTextColor = hexToRGB(_display.topTextHexColor)
-        _display.bottomTextColor = hexToRGB(_display.bottomTextHexColor)
-        _display.borderColor = hexToRGB(_display.borderHexColor)
+        _display.topTextColor = hexToRGBInt(_display.topTextHexColor)
+        _display.bottomTextColor = hexToRGBInt(_display.bottomTextHexColor)
+        _display.borderColor = hexToRGBInt(_display.borderHexColor)
     } else if (inputType === "image") {
         _display.image = parseImage(_display.image);
     }
@@ -58,15 +58,25 @@ function updateDisplay(_display, inputType) {
 
 function parseImage(img) {
     let image = [];
-    for (let col = 0; col < getDisplay().displayWidth; col++) { //for each column
-        for (let row = 0; row < getDisplay().displayHeight; row++) { //for each row
-            image.push(hexToRGB(img.getPixelColor(col, row).toString(16).substring(0, 6))) //add pixel rgb int to the image array
+    for (let row = getDisplay().displayHeight - 1; row >= 0; row--) { //for each row
+        for (let col = 0; col < getDisplay().displayWidth; col++) { //for each column
+            let pixel = (getDisplay().displayWidth * row * 3) + col
+            image.push(rgbToRGBInt(img[pixel], img[pixel + 1], img[pixel + 2])) //add pixel rgb int to the image array
         }
     }
+    console.log(image)
     return image;
 }
 
-function hexToRGB(hex) { //converts a hex rgb string to rgb int
+function rgbToRGBInt(r, g, b) {
+    let rgb = r
+    rgb = (rgb << 8) + g
+    rgb = (rgb << 8) + b
+
+    return rgb
+}
+
+function hexToRGBInt(hex) { //converts a hex rgb string to rgb int
     hex = hex.replace("#", "")
 
     let rgb = parseInt(hex.substring(0, 2), 16)
@@ -79,7 +89,7 @@ function hexToRGB(hex) { //converts a hex rgb string to rgb int
 //exports
 module.exports.getDisplay = getDisplay;
 module.exports.updateDisplay = updateDisplay;
-module.exports.hexToRGB = hexToRGB;
+module.exports.hexToRGB = hexToRGBInt;
 
 module.exports.getType = () => display.inputType;
 module.exports.getData = () => display[display.inputType];
