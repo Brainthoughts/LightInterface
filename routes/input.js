@@ -72,9 +72,9 @@ router.post("/image", function (req, res) {
             return
         }
         if (files.image.size > 0) { //if an image was actually uploaded
-            sharp(files.image.filepath)
+            new sharp(files.image.filepath)
                 .resize(getDisplay().displayWidth, getDisplay().displayHeight)
-                .toFile(process.cwd() + '/public/images/currentImage.jpg', function (err) {
+                .toFile(process.cwd() + '/public/images/currentImage.jpg', function (err, info) {
                     if (err) {
                         console.log(err)
                         res.send("There was an error processing your file, try again later.")
@@ -106,8 +106,7 @@ router.post("/image", function (req, res) {
 
 function updateImage(req, res, fields, oldImagePath) { //converts image to array
     fs.unlinkSync(oldImagePath) //VERY IMPORTANT: don't forget to delete uploaded images from /tmp
-    let image = sharp(process.cwd() + '/public/images/currentImage.jpg')
-    image
+    new sharp(process.cwd() + '/public/images/currentImage.jpg')
         .raw()
         .toBuffer((err, data, info) => {
             if (err) {
