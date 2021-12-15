@@ -72,7 +72,7 @@ router.post("/image", function (req, res) {
             return
         }
         if (files.image.size > 0) { //if an image was actually uploaded
-            let image = sharp(files.image.filepath).resize(getDisplay().displayWidth, getDisplay().displayHeight);
+            let image = sharp(files.image.filepath).resize(getDisplay().displayWidth, getDisplay().displayHeight).removeAlpha();
                 image.clone().toFile(process.cwd() + '/public/images/currentImage.jpg', function (err, info) {
                     console.log(info);
                     if (err) {
@@ -91,11 +91,11 @@ router.post("/image", function (req, res) {
 
 
 function updateImage(req, res, fields, oldImagePath, image) { //converts image to array
-    console.log(image);
+    // console.log(image);
     if (!image){
         console.log("load image");
         image = sharp(process.cwd() + '/public/images/currentImage.jpg')
-        console.log(image);
+        // console.log(image);
     }
     image.raw()
         .toBuffer((err, data, info) => {

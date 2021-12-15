@@ -58,8 +58,8 @@ function updateDisplay(_display, inputType) {
 
 function parseImage(img) {
     let image = [];
-    for (let pixel = 0; pixel < display.displayWidth*display.displayHeight; pixel+=3) { //for each row
-        image.push(rgbToRGBInt(img[pixel], img[pixel + 1], img[pixel + 2])) //add pixel rgb int to the image array
+    for (let pixel = 0; pixel < display.displayWidth*display.displayHeight; pixel++) { //for each row
+        image.push(rgbToRGBInt(img[pixel*3], img[pixel*3 + 1], img[pixel*3 + 2])) //add pixel rgb int to the image array
     }
     
     console.log(image)
