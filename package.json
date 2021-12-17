@@ -99,7 +99,7 @@
     "passport-google-oauth2": "^0.2.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-strategy": "^1.0.0",
-    "path-to-regexp": "^0.1.7",
+    "path-to-regexp": "^0.2.5",
     "pause": "^0.0.1",
     "process-nextick-args": "^2.0.1",
     "proxy-addr": "^2.0.7",
