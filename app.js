@@ -11,6 +11,7 @@ const keys = require("./config/keys.js"),
 
 const indexRoutes = require("./routes/index.js"),
     inputRoutes = require("./routes/input.js"),
+    pongRoutes = require("./routes/pong.js"),
     apiRoutes = require("./routes/api.js"),
     authRoutes = require("./routes/auth.js"),
     debugRoutes = require("./routes/debug.js"),
@@ -29,18 +30,19 @@ app.use(passport.session());
 app.use(logger("common"));
 app.use(flash())
 
-
 //initialize session variables
 app.use(function (req, res, next) {
     res.locals.flash = {success: req.flash("success"), info: req.flash("info"), error: req.flash("error")};
     res.locals.inputType = req.url.split("/")[req.url.split("/").length - 1];
     res.locals.display = display.getDisplay()[res.locals.inputType]; //display of proper input type
     res.locals.user = req.user;
+    res.locals.api = apiRoutes;
     next();
 })
 app.use("/", indexRoutes)
 app.use("/auth", authRoutes)
 app.use("/input", auth.hasAccessLevel(1), inputRoutes)
+app.use("/pong", auth.hasAccessLevel(1), pongRoutes)
 app.use("/api", apiRoutes.router) //.router needed because my code is bad and apiRoutes exports more than 1 thing
 app.use("/debug", debugRoutes)
 

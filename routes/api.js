@@ -1,8 +1,9 @@
 const express = require("express"),
     router = express.Router(),
-    display = require("../shared/display.js")
+    display = require("../shared/display.js"),
+    endpoints = require("./api_endpoints")
 
-let currentConnections = []; //current ws connections
+let connections = []; //current ws connections
 
 router.get("/", function (req, res) {
     res.send({ //send json response over http
@@ -12,35 +13,38 @@ router.get("/", function (req, res) {
 })
 router.ws('/', function (ws, req) { //on websocket connection
     console.log("connect/open")
-    ws.on('message', function (msg) { //on websocket message
-        if (msg === "init") {
-            console.log("connect/message")
-            currentConnections.push(ws); //add the websocket to list of connected websockets
-            pushUpdate(ws)
-        }
+
+    ws.on('message', function (message) { //on websocket message
+        const data = JSON.parse(message)
+
+        console.log('Received message: ' + data.type)
+
+        if (endpoints[data.type]) endpoints[data.type](module.exports, ws, data)
     });
     ws.on('close', function (code, reason) { //on websocket close
-        console.log("connect/close");
-        let index = currentConnections.indexOf(ws)
-        if (index > -1) { //if it exists in the array
-            currentConnections.splice(index, 1)
-        }
+        endpoints.closed(module.exports, ws)
+
+        const index = connections.findIndex(connection => connection.socket === ws);
+
+        if (index >= 0) connections.splice(index, 1);
     })
 });
 
 function pushUpdate(ws) { //sends the update to all clients
     if (ws) { //send to singular ws
         ws.send(JSON.stringify({
-            type: display.getType(),
+            type: 'display_' + display.getType(),
             data: display.getData()
         }))
     } else { //send to all ws
-        currentConnections.forEach(ws => ws.send(JSON.stringify({
-            type: display.getType(),
+        connections.filter(connection => connection.type === 'board')
+        .forEach(connection => connection.socket.send(JSON.stringify({
+            type: 'display_' + display.getType(),
             data: display.getData()
         })))
     }
 }
 
-module.exports.router = router;
+module.exports.connections = connections
+module.exports.router = router
 module.exports.pushUpdate = pushUpdate
