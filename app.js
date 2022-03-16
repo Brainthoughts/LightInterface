@@ -29,13 +29,13 @@ app.use(passport.session());
 app.use(logger("common"));
 app.use(flash())
 
-
 //initialize session variables
 app.use(function (req, res, next) {
     res.locals.flash = {success: req.flash("success"), info: req.flash("info"), error: req.flash("error")};
     res.locals.inputType = req.url.split("/")[req.url.split("/").length - 1];
     res.locals.display = display.getDisplay()[res.locals.inputType]; //display of proper input type
     res.locals.user = req.user;
+    res.locals.api = apiRoutes;
     next();
 })
 app.use("/", indexRoutes)
