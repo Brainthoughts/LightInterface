@@ -11,7 +11,6 @@ const keys = require("./config/keys.js"),
 
 const indexRoutes = require("./routes/index.js"),
     inputRoutes = require("./routes/input.js"),
-    pongRoutes = require("./routes/pong.js"),
     apiRoutes = require("./routes/api.js"),
     authRoutes = require("./routes/auth.js"),
     debugRoutes = require("./routes/debug.js"),
@@ -42,7 +41,6 @@ app.use(function (req, res, next) {
 app.use("/", indexRoutes)
 app.use("/auth", authRoutes)
 app.use("/input", auth.hasAccessLevel(1), inputRoutes)
-app.use("/pong", auth.hasAccessLevel(1), pongRoutes)
 app.use("/api", apiRoutes.router) //.router needed because my code is bad and apiRoutes exports more than 1 thing
 app.use("/debug", debugRoutes)
 
