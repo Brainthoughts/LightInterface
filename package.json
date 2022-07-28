@@ -82,7 +82,7 @@
     "mime-types": "^2.1.34",
     "minimatch": "^3.0.4",
     "mongodb": "^3.7.3",
-    "mongoose": "^5.13.13",
+    "mongoose": "^6.4.6",
     "morgan": "^1.10.0",
     "mpath": "^0.8.4",
     "mquery": "^3.2.5",
