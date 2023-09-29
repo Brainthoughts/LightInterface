@@ -118,7 +118,7 @@
     "serve-favicon": "^2.5.0",
     "serve-static": "^1.14.1",
     "setprototypeof": "^1.1.1",
-    "sharp": "^0.30.0",
+    "sharp": "^0.32.6",
     "sift": "^13.5.2",
     "sliced": "^1.0.1",
     "socket.io": "^4.4.0",
