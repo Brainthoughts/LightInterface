@@ -130,7 +130,7 @@
     "string_decoder": "^1.1.1",
     "supports-color": "^5.5.0",
     "toidentifier": "^1.0.0",
-    "twilio": "^3.71.3",
+    "twilio": "^4.19.3",
     "type-is": "^1.6.18",
     "uid-safe": "^2.1.5",
     "unpipe": "^1.0.0",
